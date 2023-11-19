@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do list</title>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <script defer="" src="js/main.js"></script>
+</head>
+<body>
+    Task Name: <input type="text" id="taskName" name="task"><br>
+    Description: <input type="text" id="description" name="description"><br>
+    Due by: <input type="datetime-local" id="dueBy" name="dueBy"><br>
+    <button type="button" id="add-task">Add Task</button>
+    <br><br>
+    <div id="task-list">
+        <h2>Task List</h2>
+        <ul id="task-list-ul">
+        </ul>
+    </div>
+</body>
+</html>
