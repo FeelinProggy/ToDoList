@@ -1,12 +1,54 @@
 class Task {
     name: string;
     description: string;
-    dueDate: Date;
     completed: boolean;
 }
  window.onload = function() {
     let addTaskBtn = <HTMLElement>document.querySelector("#add-task") as HTMLButtonElement;
-    addTaskBtn.onclick = addTask;
+    addTaskBtn.onclick = processTask;
  }
 
+
+function processTask() {
+    let newTask = getTask();
+    if (newTask != null) {
+        addTask(newTask);
+    }
+}
+
+function getTask():Task | null {
+    // Get all input elements from the form
+    let nameInput = document.querySelector("#name") as HTMLInputElement;
+    let descriptionInput = document.querySelector("#description") as HTMLInputElement;
+
+    // Validate data
+    let isValidData:boolean = true;
+
+    //Validate name
+    let name:string = nameInput.value.trim();
+    if (name == "") {
+        isValidData = false;
+        nameInput.nextElementSibling!.textContent = "Please enter a name fo your task";
+    }
+    else {
+        nameInput.nextElementSibling!.textContent = "";
+    }
+
+    let description:string = descriptionInput.value.trim();
+
+    if (isValidData) {
+        let addedTask = new Task();
+        addedTask.name = name;
+        addedTask.description = description;
+        addedTask.completed = false;
+        return addedTask;
+    }
+    else{
+        return null;
+    }
+}
+
+function addTask(t:Task):void {
+    console.log(t);
+}
  
