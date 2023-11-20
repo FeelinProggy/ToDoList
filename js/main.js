@@ -41,20 +41,18 @@ function getTask() {
 }
 function addTask(t) {
     console.log(t);
-    let taskList = document.createElement("ul");
+    let taskListDisplay = document.querySelector("#tasklist-display");
     let taskNameHeading = document.createElement("li");
     taskNameHeading.textContent = `${t.name}`;
-    taskList.appendChild(taskNameHeading);
+    taskListDisplay.appendChild(taskNameHeading);
     let taskNotes = document.createElement("p");
     if (t.notes != "") {
         taskNotes.textContent = `${t.notes}`;
-        taskList.appendChild(taskNotes);
+        taskNameHeading.appendChild(taskNotes);
     }
     taskNameHeading.addEventListener("click", function () {
         toggleTaskCompleted(taskNameHeading, taskNotes);
     });
-    let taskListDisplay = document.querySelector("#tasklist-display");
-    taskListDisplay.appendChild(taskList);
 }
 function toggleTaskCompleted(heading, notes) {
     heading.classList.toggle("completed");
@@ -71,7 +69,4 @@ function clearForm() {
 function clearList() {
     let taskListDisplay = document.querySelector("#tasklist-display");
     taskListDisplay.innerHTML = "";
-    let taskListHeading = document.createElement("h2");
-    taskListHeading.textContent = "Task List";
-    taskListDisplay.appendChild(taskListHeading);
 }

@@ -2,9 +2,6 @@
     text-decoration: line-through;
     color: grey;
 }
-.completed + p {
-    display: none;
-}
 body {
     margin: 40px 0 0;
     font-family: 'Roboto', sans-serif;
@@ -19,6 +16,7 @@ div
 {
     border: 1px solid #EEEEEE;
     box-shadow: 1px 1px 0 #DDDDDD;
+    background-color: rgba(247, 234, 44, 0.76);
     display: block;
     font-family: 'Marck Script',cursive;
     font-size: 20px;
@@ -27,14 +25,21 @@ div
     padding: 11px 20px 0 70px;
     resize: none;
     height: auto;
-    width: 530px;
+    width: 30%;
     
     background-image: -moz-linear-gradient(top , transparent, transparent 49px,#E7EFF8 0px), -moz-radial-gradient(4% 50%, circle closest-corner, #f5f5f5, #f5f5f5 39%, transparent 0%), -moz-radial-gradient(3.9% 46% , circle closest-corner, #CCCCCC, #CCCCCC 43.5%, transparent 0%); 
-    background-image: -webkit-linear-gradient(top , transparent, transparent 49px,#E7EFF8 0), -webkit-radial-gradient(4% 50%, circle closest-corner, #f5f5f5, #f5f5f5 39%, transparent 0%), -webkit-radial-gradient(3.9% 46%, circle closest-corner, #cccccc, #cccccc 43.5%, transparent 0%);
+    background-image: -webkit-linear-gradient(top , transparent, transparent 49px,#bdc7f3 0), -webkit-radial-gradient(4% 50%, circle closest-corner, #ffffff, #f5f5f5 39%, transparent 0%), -webkit-radial-gradient(3.9% 46%, circle closest-corner, #cccccc, #cccccc 43.5%, transparent 0%);
     background-repeat: repeat-y;
     -webkit-background-size:  100% 50px;
     background-size: 100% 50px;
 }
+h2{
+    margin-top: 0%;
+}
 ul {
     text-align: left;
+}
+p { 
+    margin-top: 0%;
+    font-size: smaller;
 }
