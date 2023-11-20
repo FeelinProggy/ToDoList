@@ -4,7 +4,7 @@ class Task {
     completed: boolean;
 }
  window.onload = function() {
-    let addTaskBtn = <HTMLElement>document.querySelector("#add-task") as HTMLButtonElement;
+    let addTaskBtn = document.querySelector("#add-task") as HTMLButtonElement;
     addTaskBtn.onclick = processTask;
  }
 
@@ -18,15 +18,15 @@ function processTask() {
 
 function getTask():Task | null {
     // Get all input elements from the form
-    let nameInput = document.querySelector("#name") as HTMLInputElement;
+    let nameInput = document.querySelector("#task-name") as HTMLInputElement;
     let descriptionInput = document.querySelector("#description") as HTMLInputElement;
 
     // Validate data
     let isValidData:boolean = true;
 
     //Validate name
-    let name:string = nameInput.value.trim();
-    if (name == "") {
+    let name:string = nameInput.value;
+    if (name.trim() == "") {
         isValidData = false;
         nameInput.nextElementSibling!.textContent = "Please enter a name fo your task";
     }

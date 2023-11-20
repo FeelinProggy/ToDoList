@@ -11,11 +11,11 @@ function processTask() {
     }
 }
 function getTask() {
-    let nameInput = document.querySelector("#name");
+    let nameInput = document.querySelector("#task-name");
     let descriptionInput = document.querySelector("#description");
     let isValidData = true;
-    let name = nameInput.value.trim();
-    if (name == "") {
+    let name = nameInput.value;
+    if (name.trim() == "") {
         isValidData = false;
         nameInput.nextElementSibling.textContent = "Please enter a name fo your task";
     }
