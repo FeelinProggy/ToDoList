@@ -18,23 +18,23 @@ function processTask() {
 
 function getTask():Task | null {
     // Get all input elements from the form
-    let nameInput = document.querySelector("#task-name") as HTMLInputElement;
-    let descriptionInput = document.querySelector("#description") as HTMLInputElement;
+    let nameTextBox = document.querySelector("#task-name") as HTMLInputElement;
+    let descriptionTextBox = document.querySelector("#description") as HTMLInputElement;
 
     // Validate data
     let isValidData:boolean = true;
 
     //Validate name
-    let name:string = nameInput.value;
+    let name:string = nameTextBox.value;
     if (name.trim() == "") {
         isValidData = false;
-        nameInput.nextElementSibling!.textContent = "Please enter a name fo your task";
+        nameTextBox.nextElementSibling!.textContent = "Please enter a name for your task"
     }
     else {
-        nameInput.nextElementSibling!.textContent = "";
+        nameTextBox.nextElementSibling!.textContent = "";
     }
 
-    let description:string = descriptionInput.value.trim();
+    let description:string = descriptionTextBox.value.trim();
 
     if (isValidData) {
         let addedTask = new Task();
@@ -50,5 +50,19 @@ function getTask():Task | null {
 
 function addTask(t:Task):void {
     console.log(t);
+
+    let taskList:HTMLUListElement = document.createElement("ul");
+    
+    let taskNameHeading = document.createElement("li");
+    taskNameHeading.textContent = `${t.name}`;
+    taskList.appendChild(taskNameHeading);
+    if (t.description != "") {
+        let taskDescription = document.createElement("p");
+        taskDescription.textContent = `${t.description}`;
+        taskList.appendChild(taskDescription);
+    }
+
+    let taskListDisplay = document.querySelector("#tasklist-display");
+    taskListDisplay!.appendChild(taskList);
 }
  
