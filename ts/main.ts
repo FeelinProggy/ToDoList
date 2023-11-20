@@ -56,13 +56,27 @@ function addTask(t:Task):void {
     let taskNameHeading = document.createElement("li");
     taskNameHeading.textContent = `${t.name}`;
     taskList.appendChild(taskNameHeading);
-    if (t.description != "") {
-        let taskDescription = document.createElement("p");
+
+    let taskDescription = document.createElement("p");
+    if (t.description != "") {        
         taskDescription.textContent = `${t.description}`;
         taskList.appendChild(taskDescription);
     }
 
+    taskNameHeading.addEventListener("click", function () {
+        toggleTaskCompleted(taskNameHeading, taskDescription);
+    });
+
     let taskListDisplay = document.querySelector("#tasklist-display");
     taskListDisplay!.appendChild(taskList);
+}
+
+
+
+function toggleTaskCompleted(heading: HTMLLIElement, description: HTMLParagraphElement) {
+    heading.classList.toggle("completed");
+    if (description != null) {
+        description.classList.toggle("completed");
+    }
 }
  

@@ -17,7 +17,7 @@ function getTask() {
     let name = nameTextBox.value;
     if (name.trim() == "") {
         isValidData = false;
-        nameTextBox.nextElementSibling.textContent = "Please enter a name fo your task";
+        nameTextBox.nextElementSibling.textContent = "Please enter a name for your task";
     }
     else {
         nameTextBox.nextElementSibling.textContent = "";
@@ -40,11 +40,20 @@ function addTask(t) {
     let taskNameHeading = document.createElement("li");
     taskNameHeading.textContent = `${t.name}`;
     taskList.appendChild(taskNameHeading);
+    let taskDescription = document.createElement("p");
     if (t.description != "") {
-        let taskDescription = document.createElement("p");
         taskDescription.textContent = `${t.description}`;
         taskList.appendChild(taskDescription);
     }
+    taskNameHeading.addEventListener("click", function () {
+        toggleTaskCompleted(taskNameHeading, taskDescription);
+    });
     let taskListDisplay = document.querySelector("#tasklist-display");
     taskListDisplay.appendChild(taskList);
+}
+function toggleTaskCompleted(heading, description) {
+    heading.classList.toggle("completed");
+    if (description != null) {
+        description.classList.toggle("completed");
+    }
 }
