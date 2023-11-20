@@ -3,16 +3,21 @@ class Task {
 window.onload = function () {
     let addTaskBtn = document.querySelector("#add-task");
     addTaskBtn.onclick = processTask;
+    let clearTaskBtn = document.querySelector("#clear-task");
+    clearTaskBtn.onclick = clearForm;
+    let clearListBtn = document.querySelector("#clear-list");
+    clearListBtn.onclick = clearList;
 };
 function processTask() {
     let newTask = getTask();
     if (newTask != null) {
         addTask(newTask);
+        clearForm();
     }
 }
 function getTask() {
     let nameTextBox = document.querySelector("#task-name");
-    let descriptionTextBox = document.querySelector("#description");
+    let notesTextBox = document.querySelector("#notes");
     let isValidData = true;
     let name = nameTextBox.value;
     if (name.trim() == "") {
@@ -22,11 +27,11 @@ function getTask() {
     else {
         nameTextBox.nextElementSibling.textContent = "";
     }
-    let description = descriptionTextBox.value.trim();
+    let notes = notesTextBox.value.trim();
     if (isValidData) {
         let addedTask = new Task();
         addedTask.name = name;
-        addedTask.description = description;
+        addedTask.notes = notes;
         addedTask.completed = false;
         return addedTask;
     }
@@ -40,20 +45,33 @@ function addTask(t) {
     let taskNameHeading = document.createElement("li");
     taskNameHeading.textContent = `${t.name}`;
     taskList.appendChild(taskNameHeading);
-    let taskDescription = document.createElement("p");
-    if (t.description != "") {
-        taskDescription.textContent = `${t.description}`;
-        taskList.appendChild(taskDescription);
+    let taskNotes = document.createElement("p");
+    if (t.notes != "") {
+        taskNotes.textContent = `${t.notes}`;
+        taskList.appendChild(taskNotes);
     }
     taskNameHeading.addEventListener("click", function () {
-        toggleTaskCompleted(taskNameHeading, taskDescription);
+        toggleTaskCompleted(taskNameHeading, taskNotes);
     });
     let taskListDisplay = document.querySelector("#tasklist-display");
     taskListDisplay.appendChild(taskList);
 }
-function toggleTaskCompleted(heading, description) {
+function toggleTaskCompleted(heading, notes) {
     heading.classList.toggle("completed");
-    if (description != null) {
-        description.classList.toggle("completed");
+    if (notes != null) {
+        notes.classList.toggle("completed");
     }
+}
+function clearForm() {
+    let nameTextBox = document.querySelector("#task-name");
+    let notesTextBox = document.querySelector("#notes");
+    nameTextBox.value = "";
+    notesTextBox.value = "";
+}
+function clearList() {
+    let taskListDisplay = document.querySelector("#tasklist-display");
+    taskListDisplay.innerHTML = "";
+    let taskListHeading = document.createElement("h2");
+    taskListHeading.textContent = "Task List";
+    taskListDisplay.appendChild(taskListHeading);
 }

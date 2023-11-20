@@ -1,11 +1,17 @@
 class Task {
     name: string;
-    description: string;
+    notes: string;
     completed: boolean;
 }
  window.onload = function() {
     let addTaskBtn = document.querySelector("#add-task") as HTMLButtonElement;
     addTaskBtn.onclick = processTask;
+
+    let clearTaskBtn = document.querySelector("#clear-task") as HTMLButtonElement;
+    clearTaskBtn.onclick = clearForm;
+
+    let clearListBtn = document.querySelector("#clear-list") as HTMLButtonElement;
+    clearListBtn.onclick = clearList;
  }
 
 
@@ -13,13 +19,14 @@ function processTask() {
     let newTask = getTask();
     if (newTask != null) {
         addTask(newTask);
+        clearForm();
     }
 }
 
 function getTask():Task | null {
     // Get all input elements from the form
     let nameTextBox = document.querySelector("#task-name") as HTMLInputElement;
-    let descriptionTextBox = document.querySelector("#description") as HTMLInputElement;
+    let notesTextBox = document.querySelector("#notes") as HTMLInputElement;
 
     // Validate data
     let isValidData:boolean = true;
@@ -34,12 +41,12 @@ function getTask():Task | null {
         nameTextBox.nextElementSibling!.textContent = "";
     }
 
-    let description:string = descriptionTextBox.value.trim();
+    let notes:string = notesTextBox.value.trim();
 
     if (isValidData) {
         let addedTask = new Task();
         addedTask.name = name;
-        addedTask.description = description;
+        addedTask.notes = notes;
         addedTask.completed = false;
         return addedTask;
     }
@@ -57,26 +64,45 @@ function addTask(t:Task):void {
     taskNameHeading.textContent = `${t.name}`;
     taskList.appendChild(taskNameHeading);
 
-    let taskDescription = document.createElement("p");
-    if (t.description != "") {        
-        taskDescription.textContent = `${t.description}`;
-        taskList.appendChild(taskDescription);
+    let taskNotes = document.createElement("p");
+    if (t.notes != "") {        
+        taskNotes.textContent = `${t.notes}`;
+        taskList.appendChild(taskNotes);
     }
 
     taskNameHeading.addEventListener("click", function () {
-        toggleTaskCompleted(taskNameHeading, taskDescription);
+        toggleTaskCompleted(taskNameHeading, taskNotes);
     });
 
     let taskListDisplay = document.querySelector("#tasklist-display");
     taskListDisplay!.appendChild(taskList);
+
+    
 }
 
 
 
-function toggleTaskCompleted(heading: HTMLLIElement, description: HTMLParagraphElement) {
+function toggleTaskCompleted(heading: HTMLLIElement, notes: HTMLParagraphElement) {
     heading.classList.toggle("completed");
-    if (description != null) {
-        description.classList.toggle("completed");
+    if (notes != null) {
+        notes.classList.toggle("completed");
     }
+}
+
+function clearForm() {
+    let nameTextBox = document.querySelector("#task-name") as HTMLInputElement;
+    let notesTextBox = document.querySelector("#notes") as HTMLInputElement;
+
+    nameTextBox.value= "";
+    notesTextBox.value = "";
+}
+
+function clearList() {
+    let taskListDisplay = document.querySelector("#tasklist-display");
+    taskListDisplay!.innerHTML = "";
+
+    let taskListHeading = document.createElement("h2");
+    taskListHeading.textContent = "Task List";
+    taskListDisplay.appendChild(taskListHeading);
 }
  
