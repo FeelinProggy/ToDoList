@@ -4,7 +4,7 @@ window.onload = function () {
     let addTaskBtn = document.querySelector("#add-task");
     addTaskBtn.onclick = processTask;
     let clearTaskBtn = document.querySelector("#clear-task");
-    clearTaskBtn.onclick = clearForm;
+    clearTaskBtn.onclick = clearTextBox;
     let clearListBtn = document.querySelector("#clear-list");
     clearListBtn.onclick = clearList;
 };
@@ -12,7 +12,7 @@ function processTask() {
     let newTask = getTask();
     if (newTask != null) {
         addTask(newTask);
-        clearForm();
+        clearTextBox();
     }
 }
 function getTask() {
@@ -54,17 +54,15 @@ function addTask(t) {
         toggleTaskCompleted(taskNameHeading, taskNotes);
     });
 }
-function toggleTaskCompleted(heading, notes) {
-    heading.classList.toggle("completed");
-    if (notes != null) {
-        notes.classList.toggle("completed");
-    }
+function toggleTaskCompleted(taskItem, notes) {
+    taskItem.classList.toggle("completed");
 }
-function clearForm() {
+function clearTextBox() {
     let nameTextBox = document.querySelector("#task-name");
     let notesTextBox = document.querySelector("#notes");
     nameTextBox.value = "";
     notesTextBox.value = "";
+    nameTextBox.nextElementSibling.textContent = "";
 }
 function clearList() {
     let taskListDisplay = document.querySelector("#tasklist-display");

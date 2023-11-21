@@ -3,36 +3,35 @@ class Task {
     notes: string;
     completed: boolean;
 }
- window.onload = function() {
+window.onload = function () {
     let addTaskBtn = document.querySelector("#add-task") as HTMLButtonElement;
     addTaskBtn.onclick = processTask;
-
+    // Clears the form text boxes
     let clearTaskBtn = document.querySelector("#clear-task") as HTMLButtonElement;
-    clearTaskBtn.onclick = clearForm;
-
+    clearTaskBtn.onclick = clearTextBox;
+    // Clears the list of tasks submitted
     let clearListBtn = document.querySelector("#clear-list") as HTMLButtonElement;
     clearListBtn.onclick = clearList;
- }
-
+}
 
 function processTask() {
     let newTask = getTask();
     if (newTask != null) {
         addTask(newTask);
-        clearForm();
+        clearTextBox();
     }
 }
 
-function getTask():Task | null {
+function getTask(): Task | null {
     // Get all input elements from the form
     let nameTextBox = document.querySelector("#task-name") as HTMLInputElement;
     let notesTextBox = document.querySelector("#notes") as HTMLInputElement;
 
     // Validate data
-    let isValidData:boolean = true;
+    let isValidData: boolean = true;
 
     //Validate name
-    let name:string = nameTextBox.value;
+    let name: string = nameTextBox.value;
     if (name.trim() == "") {
         isValidData = false;
         nameTextBox.nextElementSibling!.textContent = "Please enter a name for your task"
@@ -40,9 +39,10 @@ function getTask():Task | null {
     else {
         nameTextBox.nextElementSibling!.textContent = "";
     }
+    // Saving notes to a variable. Notes are optional so no validation is needed.
+    let notes: string = notesTextBox.value.trim();
 
-    let notes:string = notesTextBox.value.trim();
-
+    // Create the new task object if the data is valid
     if (isValidData) {
         let addedTask = new Task();
         addedTask.name = name;
@@ -50,52 +50,50 @@ function getTask():Task | null {
         addedTask.completed = false;
         return addedTask;
     }
-    else{
+    else {
         return null;
     }
 }
 
-function addTask(t:Task):void {
+// Adds the task object to the task list
+function addTask(t: Task): void {
     console.log(t);
-
+    // The UL that will contain the task name and notes
     let taskListDisplay = document.querySelector("#tasklist-display");
-    
+    // Create a new li for each new task and append it to the ul
     let taskNameHeading = document.createElement("li");
     taskNameHeading.textContent = `${t.name}`;
     taskListDisplay.appendChild(taskNameHeading);
-
+    // If the task has notes, create a p element and append it to the li
     let taskNotes = document.createElement("p");
-    if (t.notes != "") {        
+    if (t.notes != "") {
         taskNotes.textContent = `${t.notes}`;
         taskNameHeading.appendChild(taskNotes);
     }
-
+    // Add the event listener to toggle the completed status of the task when clicked
     taskNameHeading.addEventListener("click", function () {
         toggleTaskCompleted(taskNameHeading, taskNotes);
     });
-
-        
 }
 
 
-
-function toggleTaskCompleted(heading: HTMLLIElement, notes: HTMLParagraphElement) {
-    heading.classList.toggle("completed");
-    if (notes != null) {
-        notes.classList.toggle("completed");
-    }
+// Toggles the completed: boolean status on the task item
+function toggleTaskCompleted(taskItem: HTMLLIElement, notes: HTMLParagraphElement) {
+    taskItem.classList.toggle("completed");
 }
 
-function clearForm() {
+// Clears the form text boxes
+function clearTextBox() {
     let nameTextBox = document.querySelector("#task-name") as HTMLInputElement;
     let notesTextBox = document.querySelector("#notes") as HTMLInputElement;
 
-    nameTextBox.value= "";
+    nameTextBox.value = "";
     notesTextBox.value = "";
+    nameTextBox.nextElementSibling!.textContent = "";
 }
 
+// Empties the tasklist ul of preciously submitted tasks
 function clearList() {
     let taskListDisplay = document.querySelector("#tasklist-display");
     taskListDisplay!.innerHTML = "";
 }
- 
