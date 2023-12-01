@@ -22,7 +22,7 @@ function processTask() {
     let newTask = getTask();
     if (newTask != null) {
         addTaskToWebpage(newTask);
-        addTaskToStorage(newTask);
+        updateTaskInStorage(newTask);
         clearTextBox();
     }
 }
@@ -81,11 +81,11 @@ function addTaskToWebpage(t: Task): void {
 
     // Add the event listener to toggle the completed status of the task when clicked
     taskNameHeading.addEventListener("click", function () {
-        toggleTaskCompleted(taskNameHeading, taskNotes);
+        toggleTaskCompleted(t, taskNameHeading, taskNotes);
     });
 }
 
-function addTaskToStorage(t: Task): void {
+function updateTaskInStorage(t: Task): void {
     const TaskStorageKey = "Tasks";
 
     // Read existing tasks from storage
@@ -115,9 +115,16 @@ function addTaskToStorage(t: Task): void {
     }
 }
 
-// Toggles the completed: boolean status on the task item
-function toggleTaskCompleted(taskItem: HTMLLIElement, notes: HTMLParagraphElement) {
+// Toggles the completed: boolean status on the task item and updates the class for CSS
+function toggleTaskCompleted(task: Task, taskItem: HTMLLIElement, notes: HTMLParagraphElement) {
+    // Toggle the completed status of the task
+    task.completed = !task.completed;
+    // Update the task item's class
     taskItem.classList.toggle("completed");
+    //console.log(JSON.stringify(task));
+
+    // Call the function to update completion status in storage
+    updateTaskInStorage(task);
 }
 
 // Clears the form text boxes

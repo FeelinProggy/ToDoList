@@ -12,7 +12,7 @@ function processTask() {
     let newTask = getTask();
     if (newTask != null) {
         addTaskToWebpage(newTask);
-        addTaskToStorage(newTask);
+        updateTaskInStorage(newTask);
         clearTextBox();
     }
 }
@@ -51,10 +51,10 @@ function addTaskToWebpage(t) {
         taskNameHeading.appendChild(taskNotes);
     }
     taskNameHeading.addEventListener("click", function () {
-        toggleTaskCompleted(taskNameHeading, taskNotes);
+        toggleTaskCompleted(t, taskNameHeading, taskNotes);
     });
 }
-function addTaskToStorage(t) {
+function updateTaskInStorage(t) {
     const TaskStorageKey = "Tasks";
     let taskData = localStorage.getItem(TaskStorageKey);
     if (taskData == null) {
@@ -70,8 +70,10 @@ function addTaskToStorage(t) {
         localStorage.setItem(TaskStorageKey, taskData);
     }
 }
-function toggleTaskCompleted(taskItem, notes) {
+function toggleTaskCompleted(task, taskItem, notes) {
+    task.completed = !task.completed;
     taskItem.classList.toggle("completed");
+    updateTaskInStorage(task);
 }
 function clearTextBox() {
     let nameTextBox = document.querySelector("#task-name");
