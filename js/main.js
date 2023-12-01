@@ -60,10 +60,14 @@ function addTaskToStorage(t) {
     if (taskData == null) {
         let tasks = [];
         tasks.push(t);
-        let taskData = JSON.stringify(tasks);
+        taskData = JSON.stringify(tasks);
         localStorage.setItem(TaskStorageKey, taskData);
     }
     else {
+        let tasks = JSON.parse(taskData);
+        tasks.push(t);
+        taskData = JSON.stringify(tasks);
+        localStorage.setItem(TaskStorageKey, taskData);
     }
 }
 function toggleTaskCompleted(taskItem, notes) {

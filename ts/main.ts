@@ -96,12 +96,22 @@ function addTaskToStorage(t: Task): void {
         // If there are no tasks, create a new list and add current task.
         let  tasks:Task[] = [];
         tasks.push(t);
-        // Convert Task object to JSON string
-        let taskData = JSON.stringify(tasks);
+
+        // Convert Task object to JSON string and update taskData
+        taskData = JSON.stringify(tasks);
         // Store string in local storage
         localStorage.setItem(TaskStorageKey, taskData);
     }
     else {
+        // Parse the JSON string back into a list of Task objects
+        let tasks: Task[] = JSON.parse(taskData);
+        // Add the new Task objects to the list
+        tasks.push(t);
+
+        // Convert Task object to JSON string and update taskData
+        taskData = JSON.stringify(tasks);
+        // Store string in local storage
+        localStorage.setItem(TaskStorageKey, taskData);
     }
 }
 
@@ -125,3 +135,4 @@ function clearList() {
     let taskListDisplay = document.querySelector("#tasklist-display");
     taskListDisplay!.innerHTML = "";
 }
+
