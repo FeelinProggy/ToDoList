@@ -4,7 +4,7 @@ class Task {
     completed: boolean;
 }
 window.onload = function () {
-    
+
 
     let addTaskBtn = document.querySelector("#add-task") as HTMLButtonElement;
     addTaskBtn.onclick = processTask;
@@ -66,7 +66,7 @@ function getTask(): Task | null {
 // Adds the task object to the Task List 
 // to be displayed on the webpage.
 function addTaskToWebpage(t: Task): void {
-    
+
     // The UL that will contain the task name and notes
     let taskListDisplay = document.querySelector("#tasklist-display");
 
@@ -86,6 +86,11 @@ function addTaskToWebpage(t: Task): void {
     taskNameHeading.addEventListener("click", function () {
         toggleTaskCompleted(t, taskNameHeading, taskNotes);
     });
+
+    // Set classList in CSS based on task completion status when the page loads from localStorage
+    if (t.completed) {
+        taskNameHeading.classList.add("completed");
+    }
 }
 
 function updateTaskInStorage(t: Task): void {
@@ -98,7 +103,7 @@ function updateTaskInStorage(t: Task): void {
     // To update when the user toggles task completed status...
     // Find the index of the task if it already exists.
     let index = tasks.findIndex(task => task.name === t.name);
-    
+
     if (index !== -1) {
         // Update the existing task
         tasks[index] = t;
@@ -123,15 +128,20 @@ function loadTasksFromLocalStorage() {
 
         // Populate the webpage with tasks
         tasks.forEach(task => addTaskToWebpage(task));
-    }    
+    }
 }
 
 // Toggles the completed: boolean status on the task item and updates the class for CSS
 function toggleTaskCompleted(task: Task, taskItem: HTMLLIElement, notes: HTMLParagraphElement) {
     // Toggle the completed status of the task
     task.completed = !task.completed;
-    // Update the task item's class
-    taskItem.classList.toggle("completed");
+
+    // Update the task item's class based on the task's completion status
+    if (task.completed) {
+        taskItem.classList.add("completed");
+    } else {
+        taskItem.classList.remove("completed");
+    }
     //console.log(JSON.stringify(task));
 
     // Call the function to update completion status in storage

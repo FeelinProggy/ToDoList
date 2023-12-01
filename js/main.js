@@ -54,6 +54,9 @@ function addTaskToWebpage(t) {
     taskNameHeading.addEventListener("click", function () {
         toggleTaskCompleted(t, taskNameHeading, taskNotes);
     });
+    if (t.completed) {
+        taskNameHeading.classList.add("completed");
+    }
 }
 function updateTaskInStorage(t) {
     const TaskStorageKey = "Tasks";
@@ -79,7 +82,12 @@ function loadTasksFromLocalStorage() {
 }
 function toggleTaskCompleted(task, taskItem, notes) {
     task.completed = !task.completed;
-    taskItem.classList.toggle("completed");
+    if (task.completed) {
+        taskItem.classList.add("completed");
+    }
+    else {
+        taskItem.classList.remove("completed");
+    }
     updateTaskInStorage(task);
 }
 function clearTextBox() {
