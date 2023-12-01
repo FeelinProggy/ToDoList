@@ -16,6 +16,9 @@ window.onload = function () {
     // Clears the list of tasks submitted
     let clearListBtn = document.querySelector("#clear-list") as HTMLButtonElement;
     clearListBtn.onclick = clearList;
+
+    // Load tasks from localStorage on page load
+    loadTasksFromLocalStorage();
 }
 
 function processTask() {
@@ -109,6 +112,20 @@ function updateTaskInStorage(t: Task): void {
     localStorage.setItem(TaskStorageKey, taskData);
 }
 
+function loadTasksFromLocalStorage() {
+    const TaskStorageKey = "Tasks";
+
+    // Read existing tasks from storage or initialize a new array if none exist.
+    let taskData = localStorage.getItem(TaskStorageKey);
+
+    if (taskData !== null) {
+        let tasks: Task[] = JSON.parse(taskData);
+
+        // Populate the webpage with tasks
+        tasks.forEach(task => addTaskToWebpage(task));
+    }    
+}
+
 // Toggles the completed: boolean status on the task item and updates the class for CSS
 function toggleTaskCompleted(task: Task, taskItem: HTMLLIElement, notes: HTMLParagraphElement) {
     // Toggle the completed status of the task
@@ -135,5 +152,10 @@ function clearTextBox() {
 function clearList() {
     let taskListDisplay = document.querySelector("#tasklist-display");
     taskListDisplay!.innerHTML = "";
+
+    // Clear local storage
+    localStorage.clear();
 }
+
+
 

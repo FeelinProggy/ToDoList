@@ -7,6 +7,7 @@ window.onload = function () {
     clearTaskBtn.onclick = clearTextBox;
     let clearListBtn = document.querySelector("#clear-list");
     clearListBtn.onclick = clearList;
+    loadTasksFromLocalStorage();
 };
 function processTask() {
     let newTask = getTask();
@@ -68,6 +69,14 @@ function updateTaskInStorage(t) {
     taskData = JSON.stringify(tasks);
     localStorage.setItem(TaskStorageKey, taskData);
 }
+function loadTasksFromLocalStorage() {
+    const TaskStorageKey = "Tasks";
+    let taskData = localStorage.getItem(TaskStorageKey);
+    if (taskData !== null) {
+        let tasks = JSON.parse(taskData);
+        tasks.forEach(task => addTaskToWebpage(task));
+    }
+}
 function toggleTaskCompleted(task, taskItem, notes) {
     task.completed = !task.completed;
     taskItem.classList.toggle("completed");
@@ -83,4 +92,5 @@ function clearTextBox() {
 function clearList() {
     let taskListDisplay = document.querySelector("#tasklist-display");
     taskListDisplay.innerHTML = "";
+    localStorage.clear();
 }
