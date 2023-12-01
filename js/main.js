@@ -11,7 +11,8 @@ window.onload = function () {
 function processTask() {
     let newTask = getTask();
     if (newTask != null) {
-        addTask(newTask);
+        addTaskToWebpage(newTask);
+        addTaskToStorage(newTask);
         clearTextBox();
     }
 }
@@ -39,8 +40,7 @@ function getTask() {
         return null;
     }
 }
-function addTask(t) {
-    console.log(t);
+function addTaskToWebpage(t) {
     let taskListDisplay = document.querySelector("#tasklist-display");
     let taskNameHeading = document.createElement("li");
     taskNameHeading.textContent = `${t.name}`;
@@ -53,6 +53,18 @@ function addTask(t) {
     taskNameHeading.addEventListener("click", function () {
         toggleTaskCompleted(taskNameHeading, taskNotes);
     });
+}
+function addTaskToStorage(t) {
+    const TaskStorageKey = "Tasks";
+    let taskData = localStorage.getItem(TaskStorageKey);
+    if (taskData == null) {
+        let tasks = [];
+        tasks.push(t);
+        let taskData = JSON.stringify(tasks);
+        localStorage.setItem(TaskStorageKey, taskData);
+    }
+    else {
+    }
 }
 function toggleTaskCompleted(taskItem, notes) {
     taskItem.classList.toggle("completed");

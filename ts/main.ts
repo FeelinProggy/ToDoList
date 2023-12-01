@@ -4,11 +4,15 @@ class Task {
     completed: boolean;
 }
 window.onload = function () {
+    
+
     let addTaskBtn = document.querySelector("#add-task") as HTMLButtonElement;
     addTaskBtn.onclick = processTask;
+
     // Clears the form text boxes
     let clearTaskBtn = document.querySelector("#clear-task") as HTMLButtonElement;
     clearTaskBtn.onclick = clearTextBox;
+
     // Clears the list of tasks submitted
     let clearListBtn = document.querySelector("#clear-list") as HTMLButtonElement;
     clearListBtn.onclick = clearList;
@@ -17,7 +21,8 @@ window.onload = function () {
 function processTask() {
     let newTask = getTask();
     if (newTask != null) {
-        addTask(newTask);
+        addTaskToWebpage(newTask);
+        addTaskToStorage(newTask);
         clearTextBox();
     }
 }
@@ -55,27 +60,50 @@ function getTask(): Task | null {
     }
 }
 
-// Adds the task object to the task list
-function addTask(t: Task): void {
-    console.log(t);
+// Adds the task object to the Task List 
+// to be displayed on the webpage.
+function addTaskToWebpage(t: Task): void {
+    
     // The UL that will contain the task name and notes
     let taskListDisplay = document.querySelector("#tasklist-display");
+
     // Create a new li for each new task and append it to the ul
     let taskNameHeading = document.createElement("li");
     taskNameHeading.textContent = `${t.name}`;
     taskListDisplay.appendChild(taskNameHeading);
+
     // If the task has notes, create a p element and append it to the li
     let taskNotes = document.createElement("p");
     if (t.notes != "") {
         taskNotes.textContent = `${t.notes}`;
         taskNameHeading.appendChild(taskNotes);
     }
+
     // Add the event listener to toggle the completed status of the task when clicked
     taskNameHeading.addEventListener("click", function () {
         toggleTaskCompleted(taskNameHeading, taskNotes);
     });
 }
 
+function addTaskToStorage(t: Task): void {
+    const TaskStorageKey = "Tasks";
+
+    // Read existing tasks from storage
+    let taskData = localStorage.getItem(TaskStorageKey);
+
+    // if taskData is null, there are no tasks in storage
+    if (taskData == null) {
+        // If there are no tasks, create a new list and add current task.
+        let  tasks:Task[] = [];
+        tasks.push(t);
+        // Convert Task object to JSON string
+        let taskData = JSON.stringify(tasks);
+        // Store string in local storage
+        localStorage.setItem(TaskStorageKey, taskData);
+    }
+    else {
+    }
+}
 
 // Toggles the completed: boolean status on the task item
 function toggleTaskCompleted(taskItem: HTMLLIElement, notes: HTMLParagraphElement) {
