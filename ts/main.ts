@@ -88,31 +88,25 @@ function addTaskToWebpage(t: Task): void {
 function updateTaskInStorage(t: Task): void {
     const TaskStorageKey = "Tasks";
 
-    // Read existing tasks from storage
+    // Read existing tasks from storage or initialize a new array if none exist.
     let taskData = localStorage.getItem(TaskStorageKey);
+    let tasks: Task[] = taskData ? JSON.parse(taskData) : [];
 
-    // if taskData is null, there are no tasks in storage
-    if (taskData == null) {
-        // If there are no tasks, create a new list and add current task.
-        let  tasks:Task[] = [];
+    // To update when the user toggles task completed status...
+    // Find the index of the task if it already exists.
+    let index = tasks.findIndex(task => task.name === t.name);
+    
+    if (index !== -1) {
+        // Update the existing task
+        tasks[index] = t;
+    } else {
+        // Add the new Task object to the list
         tasks.push(t);
-
-        // Convert Task object to JSON string and update taskData
-        taskData = JSON.stringify(tasks);
-        // Store string in local storage
-        localStorage.setItem(TaskStorageKey, taskData);
     }
-    else {
-        // Parse the JSON string back into a list of Task objects
-        let tasks: Task[] = JSON.parse(taskData);
-        // Add the new Task objects to the list
-        tasks.push(t);
 
-        // Convert Task object to JSON string and update taskData
-        taskData = JSON.stringify(tasks);
-        // Store string in local storage
-        localStorage.setItem(TaskStorageKey, taskData);
-    }
+    // Convert the task array to a JSON string and store it
+    taskData = JSON.stringify(tasks);
+    localStorage.setItem(TaskStorageKey, taskData);
 }
 
 // Toggles the completed: boolean status on the task item and updates the class for CSS

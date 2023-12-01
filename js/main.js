@@ -57,18 +57,16 @@ function addTaskToWebpage(t) {
 function updateTaskInStorage(t) {
     const TaskStorageKey = "Tasks";
     let taskData = localStorage.getItem(TaskStorageKey);
-    if (taskData == null) {
-        let tasks = [];
-        tasks.push(t);
-        taskData = JSON.stringify(tasks);
-        localStorage.setItem(TaskStorageKey, taskData);
+    let tasks = taskData ? JSON.parse(taskData) : [];
+    let index = tasks.findIndex(task => task.name === t.name);
+    if (index !== -1) {
+        tasks[index] = t;
     }
     else {
-        let tasks = JSON.parse(taskData);
         tasks.push(t);
-        taskData = JSON.stringify(tasks);
-        localStorage.setItem(TaskStorageKey, taskData);
     }
+    taskData = JSON.stringify(tasks);
+    localStorage.setItem(TaskStorageKey, taskData);
 }
 function toggleTaskCompleted(task, taskItem, notes) {
     task.completed = !task.completed;
