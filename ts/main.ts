@@ -126,7 +126,7 @@ function loadTasksFromLocalStorage() {
     if (taskData !== null) {
         let tasks: Task[] = JSON.parse(taskData);
 
-        // Populate the webpage with tasks
+        // Populate the webpage with tasks from array
         tasks.forEach(task => addTaskToWebpage(task));
     }
 }
